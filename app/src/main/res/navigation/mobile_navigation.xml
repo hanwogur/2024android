@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_n1">
+
+    <fragment
+        android:id="@+id/navigation_n1"
+        android:name="com.example.reappstart.ui.n1.N1Fragment"
+        android:label="@string/title_n1"
+        tools:layout="@layout/fragment_n1" />
+
+    <fragment
+        android:id="@+id/navigation_n2"
+        android:name="com.example.reappstart.ui.n2.N2Fragment"
+        android:label="@string/title_n2"
+        tools:layout="@layout/fragment_n2" />
+
+    <fragment
+        android:id="@+id/navigation_n3"
+        android:name="com.example.reappstart.ui.n3.N3Fragment"
+        android:label="@string/title_n3"
+        tools:layout="@layout/fragment_n3" />
+
+    <fragment
+        android:id="@+id/navigation_n4"
+        android:name="com.example.reappstart.ui.n4.N4Fragment"
+        android:label="@string/title_n4"
+        tools:layout="@layout/fragment_n4" />
+
+    <fragment
+        android:id="@+id/navigation_n5"
+        android:name="com.example.reappstart.ui.n5.N5Fragment"
+        android:label="@string/title_n5"
+        tools:layout="@layout/fragment_n5" />
+
+</navigation>
