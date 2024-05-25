@@ -5,38 +5,20 @@
     android:paddingTop="10dp"
     android:paddingBottom="10dp" tools:context=".MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="데이터가져오기"
-        android:id="@+id/btn_input"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+    <!-- 데이터 가져오기 버튼 제거 -->
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="데이터출력하기"
         android:id="@+id/btn_output"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_centerInParent="true" /> <!-- 중앙 정렬로 변경 -->
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView android:text="데이터 가져오기" android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/txt_input" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="데이터 출력하기"
-            android:id="@+id/txt_output" />
-    </LinearLayout>
-
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="데이터 출력하기"
+        android:id="@+id/txt_output"
+        android:layout_above="@id/btn_output"
+        android:layout_marginBottom="20dp" />
 </RelativeLayout>

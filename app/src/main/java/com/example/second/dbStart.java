@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -17,7 +18,6 @@ import retrofit2.Response;
 public class dbStart extends AppCompatActivity {
 
     private databaseManager db;
-    private TextView txtInput;
     private TextView txtOutput;
 
     @Override
@@ -26,43 +26,11 @@ public class dbStart extends AppCompatActivity {
         setContentView(R.layout.db);
 
         db = new databaseManager(getApplicationContext());
-
-        txtInput = findViewById(R.id.txt_input);
         txtOutput = findViewById(R.id.txt_output);
-
-        Button btnInput = findViewById(R.id.btn_input);
         Button btnOutput = findViewById(R.id.btn_output);
 
-        btnInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Retrofit을 사용하여 네트워크 작업을 비동기적으로 수행합니다.
-                Retrofit_interface service = retrofit_client.getApiService();
-                Call<CookRecipeResponse> call = service.stock_api_get("1", "5");
-                call.enqueue(new Callback<CookRecipeResponse>() {
-                    @Override
-                    public void onResponse(Call<CookRecipeResponse> call, Response<CookRecipeResponse> response) {
-                        if (response.isSuccessful()) {
-                            CookRecipeResponse recipeResponse = response.body();
-                            // 데이터베이스에 데이터를 삽입합니다.
-                            ArrayList<CookRecipeResponse> recipeList = new ArrayList<>();
-                            recipeList.add(recipeResponse);
-                            db.insertData(recipeList);
-                            txtInput.setText("잘 가져왔고 DB에 저장되었습니다!");
-                        } else {
-                            // 네트워크 요청 실패 처리
-                            txtInput.setText("데이터를 가져오는 데 실패했습니다ㅠㅠ");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<CookRecipeResponse> call, Throwable t) {
-                        // 네트워크 요청 실패 처리
-                        txtInput.setText("네트워크 요청이 실패했습니다.");
-                    }
-                });
-            }
-        });
+        // 데이터를 자동으로 가져와 데이터베이스에 저장
+        fetchDataAndStore();
 
         btnOutput.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,18 +39,27 @@ public class dbStart extends AppCompatActivity {
                 AsyncTask<Void, Void, ArrayList<CookRecipeResponse>> databaseTask = new AsyncTask<Void, Void, ArrayList<CookRecipeResponse>>() {
                     @Override
                     protected ArrayList<CookRecipeResponse> doInBackground(Void... voids) {
-                        return db.getItems();
+                        return db.getItems(); // 데이터베이스에서 레시피 목록을 가져옵니다.
                     }
 
                     @Override
-                    protected void onPostExecute(ArrayList<CookRecipeResponse> recipes) {
-                        super.onPostExecute(recipes);
+                    protected void onPostExecute(ArrayList<CookRecipeResponse> responses) {
+                        super.onPostExecute(responses);
                         // 결과를 UI에 반영합니다.
                         StringBuilder output = new StringBuilder();
-                        for (CookRecipeResponse recipe : recipes) {
-                            output.append("레시피 이름: ").append(recipe.getRCP_NM()).append("\n");
-                            output.append("재료: ").append(recipe.getRCP_PARTS_DTLS()).append("\n");
-                            output.append("조리 방법: ").append(recipe.getRCP_WAY2()).append("\n\n");
+
+                        for (CookRecipeResponse response : responses) {
+                            CookRecipeResponse.CookRcp01 cookRcp01 = response.getCookRcp01();
+                            if (cookRcp01 != null) {
+                                List<CookRecipeResponse.RecipeRow> recipeRows = cookRcp01.getRowList();
+                                if (recipeRows != null) {
+                                    for (CookRecipeResponse.RecipeRow recipeRow : recipeRows) {
+                                        output.append("레시피 이름: ").append(recipeRow.getRCP_NM()).append("\n");
+                                        output.append("재료: ").append(recipeRow.getRCP_PARTS_DTLS()).append("\n");
+                                        output.append("조리 방법: ").append(recipeRow.getRCP_WAY2()).append("\n\n");
+                                    }
+                                }
+                            }
                         }
                         txtOutput.setText(output.toString());
                     }
@@ -90,6 +67,29 @@ public class dbStart extends AppCompatActivity {
                 databaseTask.execute();
             }
         });
+    }
 
+    private void fetchDataAndStore() {
+        Retrofit_interface service = retrofit_client.getApiService();
+        Call<CookRecipeResponse> call = service.stock_api_get("1", "100"); // 이 매개변수는 상황에 따라 조정하세요.
+        call.enqueue(new Callback<CookRecipeResponse>() {
+            @Override
+            public void onResponse(Call<CookRecipeResponse> call, Response<CookRecipeResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    CookRecipeResponse recipeResponse = response.body();
+                    // 데이터베이스에 데이터를 삽입합니다.
+                    ArrayList<CookRecipeResponse> recipeList = new ArrayList<>();
+                    recipeList.add(recipeResponse);
+                    db.insertData(recipeList);
+                } else {
+                    // 네트워크 요청 실패 처리, UI 업데이트는 실시간 상황에 따라 다를 수 있습니다.
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CookRecipeResponse> call, Throwable t) {
+                // 네트워크 요청 실패 처리
+            }
+        });
     }
 }

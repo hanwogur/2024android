@@ -150,7 +150,6 @@ public class databaseManager extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
-            db.close();
         }
     }
 
@@ -234,8 +233,9 @@ public class databaseManager extends SQLiteOpenHelper {
             row.setMANUAL_IMG20(cursor.getString(cursor.getColumnIndexOrThrow("MANUAL_IMG20")));
             row.setRCP_NA_TIP(cursor.getString(cursor.getColumnIndexOrThrow("RCP_NA_TIP")));
 
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             // Handle exception
+            e.printStackTrace();
         }
 
         return row;

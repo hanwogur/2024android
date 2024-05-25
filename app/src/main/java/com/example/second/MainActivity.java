@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textView = findViewById(R.id.textView);
 
-        call = retrofit_client.getApiService().stock_api_get("1", "5");
+        call = retrofit_client.getApiService().stock_api_get("1", "100");
 
         call.enqueue(new Callback<CookRecipeResponse>() {
             @Override
