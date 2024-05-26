@@ -1,4 +1,4 @@
-package com.example.reappstart.data;
+package com.example.reappstart.database;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

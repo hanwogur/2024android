@@ -3,20 +3,33 @@ package com.example.reappstart.ui.n1;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.reappstart.R;
+import com.example.reappstart.database.CookRecipeResponse;
 
 import java.util.List;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
-    private static List<DataModel> dataList;
+    private List<CookRecipeResponse.RecipeRow> dataList;
+    private OnItemClickListener mListener;
 
-    public DataAdapter(List<DataModel> dataList) {
+    public interface OnItemClickListener {
+        void onItemClick(CookRecipeResponse.RecipeRow item);
+    }
+
+    public DataAdapter(List<CookRecipeResponse.RecipeRow> dataList, OnItemClickListener listener) {
         this.dataList = dataList;
+        this.mListener = listener;
+    }
+    public void setData(List<CookRecipeResponse.RecipeRow> newData) {
+        this.dataList = newData;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -28,37 +41,35 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        DataModel data = dataList.get(position);
-        holder.textViewTitle.setText(data.getTitle());
+        CookRecipeResponse.RecipeRow recipe = dataList.get(position);
+        holder.textViewTitle.setText(recipe.getRCP_NM()); // 메뉴 이름 설정
+        Glide.with(holder.itemView.getContext())
+                .load(recipe.getATT_FILE_NO_MAIN())
+                .into(holder.imageView);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (position != RecyclerView.NO_POSITION && mListener != null) {
+                mListener.onItemClick(recipe);
+            }
+        });
     }
     @Override
     public int getItemCount() {
         return dataList.size();
     }
-    public interface OnItemClickListener {
-        void onItemClick(DataModel item);
-    }
-    // 클릭 리스너 객체
-    public static OnItemClickListener mListener;
-    // 클릭 리스너 설정 메서드
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewTitle;
+        ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && mListener != null) {
-                        mListener.onItemClick(dataList.get(position));
-                    }
-                }
-            });
             textViewTitle = itemView.findViewById(R.id.text_view_title);
+            imageView = itemView.findViewById(R.id.image_view);
         }
     }
 }

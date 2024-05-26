@@ -1,4 +1,4 @@
-package com.example.reappstart.data;
+package com.example.reappstart.database;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -12,6 +12,9 @@ public class CookRecipeResponse {
 
     public CookRcp01 getCookRcp01() {
         return cookRcp01;
+    }
+    public void setCookRcp01(CookRcp01 cookRcp01) {
+        this.cookRcp01 = cookRcp01;
     }
 
     public static class CookRcp01 {
@@ -33,6 +36,9 @@ public class CookRecipeResponse {
 
         public List<RecipeRow> getRowList() {
             return row;
+        }
+        public void setRowList(List<RecipeRow> row) {
+            this.row = row;
         }
 
         public Result getResult() {

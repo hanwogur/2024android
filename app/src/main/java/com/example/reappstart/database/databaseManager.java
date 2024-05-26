@@ -1,12 +1,11 @@
-package com.example.reappstart.data;
+package com.example.reappstart.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.example.reappstart.data.CookRecipeResponse;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -15,7 +14,6 @@ public class databaseManager extends SQLiteOpenHelper {
     public databaseManager(Context context) {
         super(context, "ny.db", null, 1); // 기본 생성자로 이름, CursorFactory, 버전을 설정합니다.
     }
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -89,7 +87,7 @@ public class databaseManager extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
             for (CookRecipeResponse response : list) {
                 for (CookRecipeResponse.RecipeRow row : response.getCookRcp01().getRowList()) {
-                    values.clear(); // Clear ContentValues for new row
+                    values.clear(); // 새로운 행을 위한 ContentValues를 비웁니다.
                     values.put("RCP_SEQ", row.getRCP_SEQ());
                     values.put("RCP_NM", row.getRCP_NM());
                     values.put("RCP_WAY2", row.getRCP_WAY2());
@@ -163,7 +161,11 @@ public class databaseManager extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     CookRecipeResponse response = new CookRecipeResponse();
-                    response.getCookRcp01().getRowList().add(setRecipeRow(cursor));
+                    CookRecipeResponse.CookRcp01 cookRcp01 = new CookRecipeResponse.CookRcp01();
+                    ArrayList<CookRecipeResponse.RecipeRow> rowList = new ArrayList<>();
+                    rowList.add(setRecipeRow(cursor));
+                    cookRcp01.setRowList(rowList);
+                    response.setCookRcp01(cookRcp01);
                     list.add(response);
                 } while (cursor.moveToNext());
             }
@@ -235,7 +237,7 @@ public class databaseManager extends SQLiteOpenHelper {
             row.setRCP_NA_TIP(cursor.getString(cursor.getColumnIndexOrThrow("RCP_NA_TIP")));
 
         } catch (Exception e) {
-            // Handle exception
+            // 예외 처리
             e.printStackTrace();
         }
 

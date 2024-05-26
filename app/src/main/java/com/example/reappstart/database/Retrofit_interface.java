@@ -1,6 +1,4 @@
-package com.example.reappstart.data;
-
-import com.example.reappstart.data.CookRecipeResponse;
+package com.example.reappstart.database;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
