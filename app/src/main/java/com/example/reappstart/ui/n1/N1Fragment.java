@@ -50,7 +50,10 @@ public class N1Fragment extends Fragment {
     private void onItemClick(CookRecipeResponse.RecipeRow item) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("tit", item.getRCP_NM());
-        intent.putExtra("image_url", item.getATT_FILE_NO_MAIN());
+        intent.putExtra("cate", item.getRCP_PAT2());
+        intent.putExtra("image", item.getATT_FILE_NO_MAIN());
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
