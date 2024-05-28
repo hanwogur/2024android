@@ -43,7 +43,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public String login(String id, String pw){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT id FROM Members Where id = '"+id+"';",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM Members Where id = '"+id+"';",null);
         while (cursor.moveToNext()) {
             if (cursor.getString(1).equals(pw)){
                 return cursor.getString(2);

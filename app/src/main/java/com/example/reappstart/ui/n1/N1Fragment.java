@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -27,9 +28,11 @@ public class N1Fragment extends Fragment {
     private RecyclerView recyclerView;
     private DataAdapter adapter;
 
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         N1ViewModel n1ViewModel = new ViewModelProvider(this).get(N1ViewModel.class);
+
 
         binding = FragmentN1Binding.inflate(inflater, container, false);
         View root = binding.getRoot();
