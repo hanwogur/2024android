@@ -33,7 +33,8 @@ public class Login extends Activity {
 
                 if (name != null){
                     Toast.makeText(Login.this, "로그인 성공:)", Toast.LENGTH_SHORT).show();
-
+                    SharedPreferences sharedPreferences = getSharedPreferences("a", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
                     onBackPressed();
                 } else {
                     Toast.makeText(Login.this, "다시 확인해주세요", Toast.LENGTH_SHORT).show();
