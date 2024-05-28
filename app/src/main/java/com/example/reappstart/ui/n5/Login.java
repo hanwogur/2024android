@@ -2,6 +2,7 @@ package com.example.reappstart.ui.n5;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -28,9 +29,11 @@ public class Login extends Activity {
             public void onClick(View v) {
                 String id = binding.id.getText().toString();
                 String pw = binding.pw.getText().toString();
+                String name = db.login(id, pw);
 
-                if (db.login(id, pw) != null){
+                if (name != null){
                     Toast.makeText(Login.this, "로그인 성공:)", Toast.LENGTH_SHORT).show();
+
                     onBackPressed();
                 } else {
                     Toast.makeText(Login.this, "다시 확인해주세요", Toast.LENGTH_SHORT).show();
