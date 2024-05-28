@@ -24,8 +24,8 @@ public class N2Fragment extends Fragment {
         binding = FragmentN2Binding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textN2;
-        n2ViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+//        final TextView textView = binding.textN2;
+//        n2ViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
