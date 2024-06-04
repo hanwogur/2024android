@@ -1,18 +1,17 @@
 package com.example.reappstart.ui.n5;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.reappstart.R;
 import com.example.reappstart.databinding.FragmentN5Binding;
 
 public class N5Fragment extends Fragment {
@@ -30,13 +29,29 @@ public class N5Fragment extends Fragment {
         final TextView textView = binding.textN5;
         n5ViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
-        binding.login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getActivity(), Login.class);
-                startActivity(i);
-            }
-        });
+        SharedPreferences sp = getActivity().getSharedPreferences("member", getActivity().MODE_PRIVATE);
+        String id = sp.getString("id", null);
+        String name = sp.getString("name", null);
+
+        if (id != null){
+            binding.name.setText(name+"");
+            binding.btn.setText("더보기");
+            binding.btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), Profil.class);
+                    startActivity(i);
+                }
+            });
+        } else {
+            binding.btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), Login.class);
+                    startActivity(i);
+                }
+            });
+        }
 
         return root;
     }

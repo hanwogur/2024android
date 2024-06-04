@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "my.db";
@@ -42,19 +43,24 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO Members VALUES ('"+id+"', '"+pw+"', '"+name+"', '"+phone+"');");
     }
 
-    public String login(String id, String pw){
+    public ArrayList<String> login(String id, String pw){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM Members Where id = '"+id+"';",null);
         while (cursor.moveToNext()) {
             if (cursor.getString(1).equals(pw)){
-                return cursor.getString(2);
+                ArrayList<String> r = new ArrayList<>();
+                r.add(cursor.getString(0));
+                r.add(cursor.getString(2));
+                r.add(cursor.getString(3));
+                cursor.close();
+                return r;
             }
         }
         cursor.close();
         return null;
     }
 
-    public ArrayList<String> getMemberId (){ //쓸지 모르겠다
+    public ArrayList<String> getMemberId (){ //모든 아이디 가져오는 거
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT id FROM Members",null);
         ArrayList<String> result = new ArrayList<>();

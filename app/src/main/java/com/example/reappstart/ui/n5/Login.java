@@ -13,6 +13,8 @@ import com.example.reappstart.SQLiteHelper;
 
 import com.example.reappstart.databinding.LoginBinding;
 
+import java.util.ArrayList;
+
 public class Login extends Activity {
 
     private LoginBinding binding;
@@ -29,17 +31,22 @@ public class Login extends Activity {
             public void onClick(View v) {
                 String id = binding.id.getText().toString();
                 String pw = binding.pw.getText().toString();
-                String name = db.login(id, pw);
+                ArrayList<String> r = db.login(id, pw);
 
-                if (name != null){
+                if (r != null){
                     Toast.makeText(Login.this, "로그인 성공:)", Toast.LENGTH_SHORT).show();
-                    SharedPreferences sharedPreferences = getSharedPreferences("a", 0);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    onBackPressed();
+
+                    SharedPreferences sp = getSharedPreferences("member", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor spe = sp.edit();
+                    spe.putString("id", (String) r.get(0));
+                    spe.putString("name", (String) r.get(2));
+                    spe.putString("phone", (String) r.get(3));
+                    spe.commit();
+
+                    finish();
                 } else {
                     Toast.makeText(Login.this, "다시 확인해주세요", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
@@ -50,6 +57,5 @@ public class Login extends Activity {
                 startActivity(i);
             }
         });
-
     }
 }

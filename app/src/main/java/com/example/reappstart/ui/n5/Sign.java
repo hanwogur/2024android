@@ -35,7 +35,7 @@ public class Sign extends Activity {
                 if (pw.equals(pww)){
                     db.memberInsert(id, pw, name, phone);
                     Toast.makeText(Sign.this, "회원가입 완료", Toast.LENGTH_SHORT).show();
-                    onBackPressed();
+                    finish();
                 } else {
                     Toast.makeText(Sign.this, "비밀번호가 맞지 않습니다", Toast.LENGTH_SHORT).show();
                 }
