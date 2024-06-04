@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class databaseManager extends SQLiteOpenHelper {
 
@@ -175,6 +176,29 @@ public class databaseManager extends SQLiteOpenHelper {
         }
 
         return list;
+    }
+    public ArrayList<CookRecipeResponse> searchItems(String query) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM RECIPE WHERE RCP_NM LIKE ?", new String[]{"%" + query + "%"});
+        ArrayList<CookRecipeResponse> recipeList = new ArrayList<>();
+
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    CookRecipeResponse response = new CookRecipeResponse();
+                    CookRecipeResponse.CookRcp01 cookRcp01 = new CookRecipeResponse.CookRcp01();
+                    ArrayList<CookRecipeResponse.RecipeRow> rowList = new ArrayList<>();
+                    rowList.add(setRecipeRow(cursor));
+                    cookRcp01.setRowList(rowList);
+                    response.setCookRcp01(cookRcp01);
+                    recipeList.add(response);
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+        return recipeList;
     }
 
     private CookRecipeResponse.RecipeRow setRecipeRow(Cursor cursor) {

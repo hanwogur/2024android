@@ -15,7 +15,11 @@
         android:id="@+id/navigation_n2"
         android:name="com.example.reappstart.ui.n2.N2Fragment"
         android:label="@string/title_n2"
-        tools:layout="@layout/fragment_n2" />
+        tools:layout="@layout/fragment_n2">
+        <action
+            android:id="@+id/action_n2Fragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_n3"
@@ -34,5 +38,11 @@
         android:name="com.example.reappstart.ui.n5.N5Fragment"
         android:label="@string/title_n5"
         tools:layout="@layout/fragment_n5" />
+
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="com.example.reappstart.ui.n2.SearchResultFragment"
+        android:label="Search Results"
+        tools:layout="@layout/search_result" />
 
 </navigation>
