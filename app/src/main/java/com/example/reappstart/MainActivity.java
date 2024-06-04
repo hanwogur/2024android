@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchDataAndStore() {
         Retrofit_interface service = retrofit_client.getApiService();
-        Call<CookRecipeResponse> call = service.stock_api_get("1", "100");
+        Call<CookRecipeResponse> call = service.stock_api_get("1", "120");
         call.enqueue(new Callback<CookRecipeResponse>() {
             @Override
             public void onResponse(Call<CookRecipeResponse> call, Response<CookRecipeResponse> response) {
