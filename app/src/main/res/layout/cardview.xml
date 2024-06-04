@@ -15,19 +15,23 @@
         android:id="@+id/text_view_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
-        android:padding="16dp"
+        android:layout_marginTop="170dp"
+        android:padding="12dp"
         android:textSize="20dp"
         android:text="TextView"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:fontFamily="@font/noto_sans_kr_bold"/>
 
     <TextView
         android:id="@+id/category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
-        android:paddingLeft="16dp"
+        android:layout_marginTop="215dp"
+        android:paddingLeft="15dp"
         android:textSize="15dp"
-        android:text="TextView" />
+        android:text="TextView"
+        android:fontFamily="@font/noto_sans_kr_bold"/>
 
 </androidx.cardview.widget.CardView>
