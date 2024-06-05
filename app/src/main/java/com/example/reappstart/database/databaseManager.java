@@ -145,6 +145,11 @@ public class databaseManager extends SQLiteOpenHelper {
                     values.put("MANUAL_IMG20", row.getMANUAL_IMG20());
                     values.put("RCP_NA_TIP", row.getRCP_NA_TIP());
                     db.insert("RECIPE", null, values);
+
+                    long rewId = db.insertWithOnConflict("RECIPE", null, values, SQLiteDatabase.CONFLICT_IGNORE );
+                    if (rewId == -1) {
+                        db.update("RECIPE", values, "RCP_SEQ = ?", new String[]{row.getRCP_SEQ()});
+                    }
                 }
             }
             db.setTransactionSuccessful();
@@ -177,23 +182,19 @@ public class databaseManager extends SQLiteOpenHelper {
 
         return list;
     }
-    public ArrayList<CookRecipeResponse> searchItems(String query) {
+    public List<CookRecipeResponse.RecipeRow> searchItems(String query) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM RECIPE WHERE RCP_NM LIKE ?", new String[]{"%" + query + "%"});
-        ArrayList<CookRecipeResponse> recipeList = new ArrayList<>();
+        List<CookRecipeResponse.RecipeRow> recipeList = new ArrayList<>();
 
         try {
             if (cursor.moveToFirst()) {
                 do {
-                    CookRecipeResponse response = new CookRecipeResponse();
-                    CookRecipeResponse.CookRcp01 cookRcp01 = new CookRecipeResponse.CookRcp01();
-                    ArrayList<CookRecipeResponse.RecipeRow> rowList = new ArrayList<>();
-                    rowList.add(setRecipeRow(cursor));
-                    cookRcp01.setRowList(rowList);
-                    response.setCookRcp01(cookRcp01);
-                    recipeList.add(response);
+                    recipeList.add(setRecipeRow(cursor));
                 } while (cursor.moveToNext());
             }
+        } catch (Exception e) {
+            Log.e("databaseManager", "Error searching items", e);
         } finally {
             cursor.close();
             db.close();

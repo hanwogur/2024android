@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.reappstart.R;
 import com.example.reappstart.ui.n1.DataAdapter;
 import com.example.reappstart.database.CookRecipeResponse;
+import java.util.List;
 
 public class SearchResultFragment extends Fragment {
     private SearchResultViewModel searchResultViewModel;
@@ -22,16 +23,25 @@ public class SearchResultFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.search_result, container, false);
 
-        recyclerView = root.findViewById(R.id.recycler_view);
+        recyclerView = root.findViewById(R.id.recycler_view2);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         searchResultViewModel = new ViewModelProvider(this).get(SearchResultViewModel.class);
-        String query = getArguments().getString("query");
-        searchResultViewModel.searchRecipes(query);
+        if (getArguments() != null) {
+            String query = getArguments().getString("query");
+            if (query != null && !query.isEmpty()) {
+                searchResultViewModel.searchRecipes(query);
+            }
+        }
 
         searchResultViewModel.getSearchResults().observe(getViewLifecycleOwner(), recipes -> {
-            adapter = new DataAdapter(recipes, this::onItemClick);
-            recyclerView.setAdapter(adapter);
+            if (recipes != null) {
+                adapter = new DataAdapter(recipes, this::onItemClick);
+                recyclerView.setAdapter(adapter);
+            } else {
+                // Handle the case where search results are null
+                // Show an error message or empty state to the user
+            }
         });
 
         return root;

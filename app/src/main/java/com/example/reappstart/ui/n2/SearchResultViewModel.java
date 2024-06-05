@@ -3,11 +3,14 @@ package com.example.reappstart.ui.n2;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
+
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import com.example.reappstart.database.databaseManager;
+
 import com.example.reappstart.database.CookRecipeResponse;
+import com.example.reappstart.database.databaseManager;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,7 @@ public class SearchResultViewModel extends AndroidViewModel {
     }
 
     public void searchRecipes(String query) {
+        Log.d(TAG, "searchRecipes called with query: " + query);
         new SearchRecipesTask(this, dbManager, query).execute();
     }
 
@@ -43,12 +47,11 @@ public class SearchResultViewModel extends AndroidViewModel {
 
         @Override
         protected List<CookRecipeResponse.RecipeRow> doInBackground(Void... voids) {
-            ArrayList<CookRecipeResponse.RecipeRow> result = new ArrayList<>();
+            List<CookRecipeResponse.RecipeRow> result = new ArrayList<>();
             try {
-                List<CookRecipeResponse> responses = dbManager.searchItems(query); // 검색 쿼리를 데이터베이스로 전달
-                for (CookRecipeResponse response : responses) {
-                    result.addAll(response.getCookRcp01().getRowList());
-                }
+                Log.d(TAG, "Executing search query: " + query);
+                List<CookRecipeResponse.RecipeRow> responses = dbManager.searchItems(query);
+                result.addAll(responses);
                 Log.d(TAG, "Search results loaded: " + result.size());
             } catch (Exception e) {
                 Log.e(TAG, "Error loading search results", e);
@@ -56,12 +59,17 @@ public class SearchResultViewModel extends AndroidViewModel {
             return result;
         }
 
+
         @Override
         protected void onPostExecute(List<CookRecipeResponse.RecipeRow> recipeList) {
             SearchResultViewModel viewModel = viewModelReference.get();
-            if (viewModel != null && recipeList != null) {
-                viewModel.searchResults.setValue(recipeList);
-                Log.d(TAG, "Search results set to LiveData: " + recipeList.size());
+            if (viewModel != null) {
+                if (recipeList != null) {
+                    viewModel.searchResults.setValue(recipeList);
+                    Log.d(TAG, "Search results set to LiveData: " + recipeList.size());
+                } else {
+                    Log.e(TAG, "Search result list is null");
+                }
             }
         }
     }
