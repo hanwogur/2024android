@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -30,9 +32,7 @@ public class N2Fragment extends Fragment {
     private RecyclerView recyclerView;
     private DataAdapter adapter;
     private EditText searchBar;
-    private static final long SEARCH_DELAY_MS = 500; // 0.5초 지연 시간
-    private Handler searchHandler = new Handler();
-    private Runnable searchRunnable;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +41,7 @@ public class N2Fragment extends Fragment {
         recyclerView = root.findViewById(R.id.recycler_view1);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
+        Button backButton = root.findViewById(R.id.end);
         searchBar = root.findViewById(R.id.search_bar);
 
         n2ViewModel = new ViewModelProvider(this).get(N2ViewModel.class);
@@ -59,6 +60,10 @@ public class N2Fragment extends Fragment {
                 return true;
             }
             return false;
+        });
+
+        backButton.setOnClickListener(v -> {
+            getActivity().onBackPressed();
         });
 
         return root;

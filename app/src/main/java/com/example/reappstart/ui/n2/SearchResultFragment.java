@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -28,8 +29,12 @@ public class SearchResultFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.search_result, container, false);
 
+        Button backButton = root.findViewById(R.id.end);
+
         recyclerView = root.findViewById(R.id.recycler_view2);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+
+
 
         searchResultViewModel = new ViewModelProvider(this).get(SearchResultViewModel.class);
         if (getArguments() != null) {
@@ -38,6 +43,7 @@ public class SearchResultFragment extends Fragment {
                 searchResultViewModel.searchRecipes(query);
             }
         }
+
         EditText searchBar = root.findViewById(R.id.search_bar);
         searchBar.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH ||
@@ -50,6 +56,11 @@ public class SearchResultFragment extends Fragment {
             }
             return false;
         });
+
+        backButton.setOnClickListener(v -> {
+            getActivity().onBackPressed();
+        });
+
 
         searchResultViewModel.getSearchResults().observe(getViewLifecycleOwner(), recipes -> {
             if (recipes != null) {
