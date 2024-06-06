@@ -1,12 +1,17 @@
 package com.example.reappstart.ui.n2;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.reappstart.R;
@@ -24,7 +29,7 @@ public class SearchResultFragment extends Fragment {
         View root = inflater.inflate(R.layout.search_result, container, false);
 
         recyclerView = root.findViewById(R.id.recycler_view2);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         searchResultViewModel = new ViewModelProvider(this).get(SearchResultViewModel.class);
         if (getArguments() != null) {
@@ -33,6 +38,18 @@ public class SearchResultFragment extends Fragment {
                 searchResultViewModel.searchRecipes(query);
             }
         }
+        EditText searchBar = root.findViewById(R.id.search_bar);
+        searchBar.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                    event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+                String query = searchBar.getText().toString().trim();
+                if (!query.isEmpty()) {
+                    searchResultViewModel.searchRecipes(query);
+                }
+                return true;
+            }
+            return false;
+        });
 
         searchResultViewModel.getSearchResults().observe(getViewLifecycleOwner(), recipes -> {
             if (recipes != null) {
