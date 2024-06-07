@@ -43,6 +43,14 @@ public class N5Fragment extends Fragment {
                     startActivity(i);
                 }
             });
+
+            View.OnClickListener cl = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    
+                }
+            };
+
         } else {
             binding.btn.setOnClickListener(new View.OnClickListener() {
                 @Override

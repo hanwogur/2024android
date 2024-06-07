@@ -18,15 +18,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.reappstart.DetailActivity;
 import com.example.reappstart.R;
+import com.example.reappstart.database.Retrofit_interface;
+import com.example.reappstart.database.databaseManager;
+import com.example.reappstart.database.retrofit_client;
 import com.example.reappstart.databinding.FragmentN1Binding;
 import com.example.reappstart.database.CookRecipeResponse;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class N1Fragment extends Fragment {
     private FragmentN1Binding binding;
     private RecyclerView recyclerView;
     private DataAdapter adapter;
+
+    private databaseManager db;
 
 
     @Override
@@ -47,6 +56,10 @@ public class N1Fragment extends Fragment {
             adapter.setData(recipes);
         });
 
+        //db = new databaseManager(getActivity());
+
+        //fetchDataAndStore();
+
         return root;
     }
 
@@ -58,6 +71,30 @@ public class N1Fragment extends Fragment {
 
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    private void fetchDataAndStore() {
+        Retrofit_interface service = retrofit_client.getApiService();
+        Call<CookRecipeResponse> call = service.stock_api_get("1", "2");
+        call.enqueue(new Callback<CookRecipeResponse>() {
+            @Override
+            public void onResponse(Call<CookRecipeResponse> call, Response<CookRecipeResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    CookRecipeResponse recipeResponse = response.body();
+                    //데이터 베이스에 데이터를 삽입
+                    ArrayList<CookRecipeResponse> recipeList = new ArrayList<>();
+                    recipeList.add(recipeResponse);
+                    db.insertData(recipeList);
+                } else {
+                    // 네트워크 요청 실패 처리, UI 업데이트는 실시간 상황에 따라 다를 수 있다.
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CookRecipeResponse> call, Throwable t) {
+                // 네트워크 요청 실패 처리
+            }
+        });
     }
 
     @Override

@@ -7,15 +7,13 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.example.reappstart.SQLiteHelper;
-
 import com.example.reappstart.databinding.SignBinding;
 
 public class Sign extends Activity {
 
     private SignBinding b;
 
-    SQLiteHelper db = new SQLiteHelper(this);
+    private DBHelper db = new DBHelper(this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +33,7 @@ public class Sign extends Activity {
                 if (pw.equals(pww)){
                     db.memberInsert(id, pw, name, phone);
                     Toast.makeText(Sign.this, "회원가입 완료", Toast.LENGTH_SHORT).show();
+
                     finish();
                 } else {
                     Toast.makeText(Sign.this, "비밀번호가 맞지 않습니다", Toast.LENGTH_SHORT).show();

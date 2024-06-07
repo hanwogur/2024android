@@ -1,10 +1,12 @@
-package com.example.reappstart;
+package com.example.reappstart.ui.n5;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
+
+import com.example.reappstart.R;
 
 public class Mypage extends Activity {
     @Override

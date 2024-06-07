@@ -28,6 +28,8 @@
 
         <activity android:name=".ui.n5.Login"></activity>
         <activity android:name=".ui.n5.Sign"></activity>
+        <activity android:name=".ui.n5.Profil"></activity>
+        <activity android:name=".ui.n5.Setting"></activity>
         <activity android:name=".DetailActivity"
             android:launchMode="singleTop"
             ></activity>
