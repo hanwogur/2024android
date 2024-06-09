@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="10dp">
 
         <ImageButton
             android:id="@+id/btn_back"
@@ -20,9 +23,8 @@
 
         <TextView
             android:id="@+id/text_n5"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_margin="8dp"
             android:fontFamily="@font/noto_sans_kr_bold"
             android:includeFontPadding="false"
@@ -40,7 +42,8 @@
         android:layout_marginHorizontal="38dp"
         android:textColor="#333333"
         android:textSize="20sp"
-        android:text="푸시 알림 동의" />
+        android:text="푸시 알림 동의"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <Switch
         android:id="@+id/switch2"
@@ -50,7 +53,8 @@
         android:layout_marginHorizontal="38dp"
         android:textColor="#333333"
         android:textSize="20sp"
-        android:text="마케팅 알람 동의" />
+        android:text="마케팅 알람 동의"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <View
         android:layout_width="match_parent"
@@ -66,11 +70,9 @@
         android:fontFamily="@font/noto_sans_kr_bold"
         android:gravity="left"
         android:includeFontPadding="false"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:paddingVertical="10dp"
-        android:paddingStart="38dp"
+        android:paddingStart="32dp"
         android:text="도움말"
+        android:layout_margin="8dp"
         android:textColor="#333333"
         android:textSize="20sp" />
 
@@ -82,10 +84,8 @@
         android:fontFamily="@font/noto_sans_kr_bold"
         android:gravity="left"
         android:includeFontPadding="false"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:paddingVertical="10dp"
-        android:paddingStart="38dp"
+        android:layout_margin="8dp"
+        android:paddingStart="32dp"
         android:text="계정 / 정보 관리"
         android:textColor="#333333"
         android:textSize="20sp" />
@@ -98,10 +98,8 @@
         android:fontFamily="@font/noto_sans_kr_bold"
         android:gravity="left"
         android:includeFontPadding="false"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:paddingVertical="10dp"
-        android:paddingStart="38dp"
+        android:layout_margin="8dp"
+        android:paddingStart="32dp"
         android:text="공지사항"
         android:textColor="#333333"
         android:textSize="20sp" />
@@ -114,10 +112,8 @@
         android:fontFamily="@font/noto_sans_kr_bold"
         android:gravity="left"
         android:includeFontPadding="false"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:paddingVertical="10dp"
-        android:paddingStart="38dp"
+        android:layout_margin="8dp"
+        android:paddingStart="32dp"
         android:text="로그아웃"
         android:textColor="#333333"
         android:textSize="20sp" />
@@ -130,10 +126,8 @@
         android:fontFamily="@font/noto_sans_kr_bold"
         android:gravity="left"
         android:includeFontPadding="false"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        android:paddingVertical="10dp"
-        android:paddingStart="38dp"
+        android:layout_margin="8dp"
+        android:paddingStart="32dp"
         android:text="회원탈퇴"
         android:textColor="#333333"
         android:textSize="20sp" />

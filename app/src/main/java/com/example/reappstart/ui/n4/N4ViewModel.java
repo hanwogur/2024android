@@ -10,7 +10,7 @@ public class N4ViewModel extends ViewModel {
 
     public N4ViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("찜");
+        mText.setValue("찜 기능 예정");
     }
 
     public LiveData<String> getText() {

@@ -46,6 +46,9 @@ public class N1Fragment extends Fragment {
         binding = FragmentN1Binding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        db = new databaseManager(getActivity());
+        fetchDataAndStore();
+
         recyclerView = root.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         adapter = new DataAdapter(new ArrayList<>(), this::onItemClick);
@@ -55,10 +58,6 @@ public class N1Fragment extends Fragment {
             Log.d(TAG, "Observed recipes: " + recipes.size());
             adapter.setData(recipes);
         });
-
-        //db = new databaseManager(getActivity());
-
-        //fetchDataAndStore();
 
         return root;
     }

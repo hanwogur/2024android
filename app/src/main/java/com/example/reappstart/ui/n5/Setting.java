@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,13 @@ public class Setting extends Activity {
         binding = SettingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         binding.button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,6 +43,12 @@ public class Setting extends Activity {
                         spe.clear();
                         spe.commit();
                         Toast.makeText(Setting.this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(Setting.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+
+                        finish();
                     }
                 });
                 builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {

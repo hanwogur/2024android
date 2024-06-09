@@ -10,14 +10,13 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.reappstart.MainActivity;
 import com.example.reappstart.databinding.LoginBinding;
 
 import java.util.ArrayList;
 
 public class Login extends Activity {
-
     private LoginBinding binding;
-
     DBHelper db = new DBHelper(this);
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,8 +43,9 @@ public class Login extends Activity {
                     spe.putString("phone", r.get(2));
                     spe.commit();
 
-                    Intent returnIntent = new Intent();
-                    setResult(RESULT_OK, returnIntent);
+                    Intent intent = new Intent(Login.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
 
                     finish();
                 } else {
@@ -57,7 +57,7 @@ public class Login extends Activity {
         binding.sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), Sign.class);
+                Intent i = new Intent(Login.this, Sign.class);
                 startActivity(i);
             }
         });

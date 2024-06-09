@@ -68,8 +68,8 @@ public class DBHelper extends SQLiteOpenHelper {
             }
         } catch (Exception e) {
             e.printStackTrace(); // 예외 처리
-            Log.v("asdf",result.toString());
-        } finally { //모르겠다 다 닫아버림
+            Log.v("asdf",result.toString() + "login() 중 에러 발생 확인 바람");
+        } finally { //모르겠다 다 닫아버려
             if (cursor != null) {
                 cursor.close();
             }
