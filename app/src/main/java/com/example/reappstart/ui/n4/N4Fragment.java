@@ -4,12 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.AnimatorRes;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.reappstart.R;
 import com.example.reappstart.databinding.FragmentN4Binding;
 
 public class N4Fragment extends Fragment {
@@ -26,6 +31,10 @@ public class N4Fragment extends Fragment {
 
         final TextView textView = binding.textN4;
         n4ViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        Animation rotation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_anime);
+        binding.iv.startAnimation(rotation);
+
         return root;
     }
 

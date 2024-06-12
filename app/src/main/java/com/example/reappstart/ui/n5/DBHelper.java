@@ -1,5 +1,6 @@
 package com.example.reappstart.ui.n5;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -41,6 +42,20 @@ public class DBHelper extends SQLiteOpenHelper {
     public void memberInsert(String id, String pw, String name, String phone){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("INSERT INTO Members VALUES ('"+id+"', '"+pw+"', '"+name+"', '"+phone+"');");
+        db.close();
+    }
+
+    public void memberDelete(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("Members", "id = ?", new String[]{id});
+        db.close();
+    }
+
+    public void changeName(String id, String newName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("name", newName); //이름 행에 레코드 변경
+        db.update("Members", values, "id = ?", new String[]{id});
         db.close();
     }
 

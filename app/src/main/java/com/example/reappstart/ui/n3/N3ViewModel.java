@@ -10,7 +10,7 @@ public class N3ViewModel extends ViewModel {
 
     public N3ViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("게시판 예정");
+        mText.setValue("게시판");
     }
 
     public LiveData<String> getText() {

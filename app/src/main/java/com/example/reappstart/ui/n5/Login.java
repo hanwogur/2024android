@@ -34,7 +34,7 @@ public class Login extends Activity {
                 Log.v("c2", "go");
 
                 if (r != null){
-                    Toast.makeText(Login.this, "로그인 성공:)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "로그인 완료", Toast.LENGTH_SHORT).show();
 
                     SharedPreferences sp = getSharedPreferences("member", Activity.MODE_PRIVATE);
                     SharedPreferences.Editor spe = sp.edit();
