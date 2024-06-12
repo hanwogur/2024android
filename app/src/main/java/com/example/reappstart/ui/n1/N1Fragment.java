@@ -12,13 +12,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.reappstart.DetailActivity;
 import com.example.reappstart.R;
 import com.example.reappstart.database.Retrofit_interface;
 import com.example.reappstart.database.databaseManager;
@@ -66,12 +64,13 @@ public class N1Fragment extends Fragment {
     }
 
     private void onItemClick(CookRecipeResponse.RecipeRow item) {
+        Log.d("N1Fragment", "Item clicked: " + item.getRCP_SEQ()); // 로그 추가
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("tit", item.getRCP_NM());
-        intent.putExtra("cate", item.getRCP_PAT2());
+        intent.putExtra("category", item.getRCP_PAT2());
         intent.putExtra("image", item.getATT_FILE_NO_MAIN());
-
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("RCP_SEQ", item.getRCP_SEQ()); // RCP_SEQ 값을 추가
+        Log.d("N1Fragment", "RCP_SEQ added to intent: " + item.getRCP_SEQ()); // 로그 추가
         startActivity(intent);
     }
 

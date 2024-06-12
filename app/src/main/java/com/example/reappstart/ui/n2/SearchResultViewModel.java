@@ -19,6 +19,7 @@ public class SearchResultViewModel extends AndroidViewModel {
     private static final String TAG = "SearchResultViewModel";
     private databaseManager dbManager;
     private MutableLiveData<List<CookRecipeResponse.RecipeRow>> searchResults = new MutableLiveData<>();
+    private SearchRecipesTask currentTask = null;
 
     public SearchResultViewModel(Application application) {
         super(application);
@@ -31,8 +32,14 @@ public class SearchResultViewModel extends AndroidViewModel {
 
     public void searchRecipes(String query) {
         Log.d(TAG, "searchRecipes called with query: " + query);
-        new SearchRecipesTask(this, dbManager, query).execute();
+        if (currentTask != null && currentTask.getStatus() != AsyncTask.Status.FINISHED) {
+            currentTask.cancel(true);
+            Log.d(TAG, "Previous task cancelled");
+        }
+        currentTask = new SearchRecipesTask(this, dbManager, query);
+        currentTask.execute();
     }
+
 
     private static class SearchRecipesTask extends AsyncTask<Void, Void, List<CookRecipeResponse.RecipeRow>> {
         private WeakReference<SearchResultViewModel> viewModelReference;
@@ -47,6 +54,10 @@ public class SearchResultViewModel extends AndroidViewModel {
 
         @Override
         protected List<CookRecipeResponse.RecipeRow> doInBackground(Void... voids) {
+            if (isCancelled()) {
+                Log.d(TAG, "Task was cancelled before execution");
+                return null;
+            }
             List<CookRecipeResponse.RecipeRow> result = new ArrayList<>();
             try {
                 Log.d(TAG, "Executing search query: " + query);
@@ -62,6 +73,10 @@ public class SearchResultViewModel extends AndroidViewModel {
 
         @Override
         protected void onPostExecute(List<CookRecipeResponse.RecipeRow> recipeList) {
+            if (isCancelled()) {
+                Log.d(TAG, "Task was cancelled during execution");
+                return;
+            }
             SearchResultViewModel viewModel = viewModelReference.get();
             if (viewModel != null) {
                 if (recipeList != null) {

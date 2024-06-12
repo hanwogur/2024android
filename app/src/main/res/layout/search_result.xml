@@ -5,20 +5,19 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <Button
+    <ImageButton
         android:id="@+id/end"
-        android:layout_width="73dp"
-        android:layout_height="64dp"
+        android:layout_width="53dp"
+        android:layout_height="51dp"
         android:background="@android:color/transparent"
-        android:text="←"
-        android:textColor="#000000"
-        android:textSize="40dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/baseline_chevron_left_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.044"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.023" />
 
     <EditText
         android:id="@+id/search_bar"

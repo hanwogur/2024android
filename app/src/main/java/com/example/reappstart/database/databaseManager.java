@@ -78,7 +78,8 @@ public class databaseManager extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Implement if database schema needs to be changed in future versions
+        db.execSQL("DROP TABLE IF EXISTS RECIPE");
+        onCreate(db);
     }
 
     public void insertData(ArrayList<CookRecipeResponse> list) {
@@ -210,12 +211,16 @@ public class databaseManager extends SQLiteOpenHelper {
 
 
     public List<CookRecipeResponse.RecipeRow> searchItems(String query) {
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM RECIPE WHERE RCP_NM LIKE ?", new String[]{"%" + query + "%"});
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
         List<CookRecipeResponse.RecipeRow> recipeList = new ArrayList<>();
 
         try {
-            if (cursor.moveToFirst()) {
+            db = getReadableDatabase();
+            Log.d("databaseManager", "Searching items with query: " + query);
+            cursor = db.rawQuery("SELECT * FROM RECIPE WHERE RCP_NM LIKE ?", new String[]{"%" + query + "%"});
+
+            if (cursor != null && cursor.moveToFirst()) {
                 do {
                     recipeList.add(setRecipeRow(cursor));
                 } while (cursor.moveToNext());
@@ -223,11 +228,19 @@ public class databaseManager extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.e("databaseManager", "Error searching items", e);
         } finally {
-            cursor.close();
-            db.close();
+            if (cursor != null) {
+                cursor.close();
+            }
+            if (db != null) {
+                db.close();
+            }
         }
+        Log.d("databaseManager", "Search completed, found items: " + recipeList.size());
         return recipeList;
     }
+
+
+
 
     private CookRecipeResponse.RecipeRow setRecipeRow(Cursor cursor) {
         CookRecipeResponse.RecipeRow row = new CookRecipeResponse.RecipeRow();
