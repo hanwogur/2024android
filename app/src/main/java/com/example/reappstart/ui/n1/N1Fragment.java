@@ -59,6 +59,9 @@ public class N1Fragment extends Fragment {
             adapter.setData(recipes);
         });
 
+        db = new databaseManager(getActivity());
+
+        fetchDataAndStore();
         return root;
     }
 
@@ -76,7 +79,8 @@ public class N1Fragment extends Fragment {
         startLoadingAnimation();
 
         Retrofit_interface service = retrofit_client.getApiService();
-        Call<CookRecipeResponse> call = service.stock_api_get("1", "10");
+        Call<CookRecipeResponse> call = service.stock_api_get("1", "110");
+
         call.enqueue(new Callback<CookRecipeResponse>() {
             @Override
             public void onResponse(Call<CookRecipeResponse> call, Response<CookRecipeResponse> response) {

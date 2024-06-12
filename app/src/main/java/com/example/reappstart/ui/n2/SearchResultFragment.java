@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -29,7 +30,7 @@ public class SearchResultFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.search_result, container, false);
 
-        Button backButton = root.findViewById(R.id.end);
+        ImageButton backButton = root.findViewById(R.id.end);
 
         recyclerView = root.findViewById(R.id.recycler_view2);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));

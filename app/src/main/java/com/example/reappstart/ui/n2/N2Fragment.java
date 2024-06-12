@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -41,7 +42,7 @@ public class N2Fragment extends Fragment {
         recyclerView = root.findViewById(R.id.recycler_view1);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        Button backButton = root.findViewById(R.id.end);
+        ImageButton backButton = root.findViewById(R.id.end);
         searchBar = root.findViewById(R.id.search_bar);
 
         n2ViewModel = new ViewModelProvider(this).get(N2ViewModel.class);

@@ -47,7 +47,7 @@ public class N2ViewModel extends AndroidViewModel {
         protected List<CookRecipeResponse.RecipeRow> doInBackground(Void... voids) {
             ArrayList<CookRecipeResponse.RecipeRow> result = new ArrayList<>();
             try {
-                List<CookRecipeResponse> responses = dbManager.getItems();
+                List<CookRecipeResponse> responses = dbManager.getItems2();
                 for (CookRecipeResponse response : responses) {
                     result.addAll(response.getCookRcp01().getRowList());
                 }

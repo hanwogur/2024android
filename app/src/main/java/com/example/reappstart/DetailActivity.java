@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ import com.bumptech.glide.request.transition.Transition;
 public class DetailActivity extends AppCompatActivity {
     TextView txt, ca;
     ImageView iv;
-    Button ed;
+    ImageButton ed;
     String text, img, ctgr;
     Intent i;
     View.OnClickListener cl;
@@ -44,7 +45,7 @@ public class DetailActivity extends AppCompatActivity {
         iv = (ImageView) findViewById(R.id.image);
         txt = (TextView) findViewById(R.id.title);
         ca = (TextView) findViewById(R.id.category);
-        ed = (Button) findViewById(R.id.end);
+        ed = (ImageButton) findViewById(R.id.end);
         i = getIntent();
         text = i.getStringExtra("tit");
         img = i.getStringExtra("image");

@@ -182,6 +182,33 @@ public class databaseManager extends SQLiteOpenHelper {
 
         return list;
     }
+
+    public ArrayList<CookRecipeResponse> getItems2() {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM RECIPE WHERE INFO_ENG > 30 AND RCP_SEQ > 60", null);
+        ArrayList<CookRecipeResponse> list = new ArrayList<>();
+
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    CookRecipeResponse response = new CookRecipeResponse();
+                    CookRecipeResponse.CookRcp01 cookRcp01 = new CookRecipeResponse.CookRcp01();
+                    ArrayList<CookRecipeResponse.RecipeRow> rowList = new ArrayList<>();
+                    rowList.add(setRecipeRow(cursor));
+                    cookRcp01.setRowList(rowList);
+                    response.setCookRcp01(cookRcp01);
+                    list.add(response);
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+
+        return list;
+    }
+
+
     public List<CookRecipeResponse.RecipeRow> searchItems(String query) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM RECIPE WHERE RCP_NM LIKE ?", new String[]{"%" + query + "%"});
