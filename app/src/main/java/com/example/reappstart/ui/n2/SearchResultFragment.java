@@ -32,21 +32,17 @@ public class SearchResultFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("SearchResultFragment", "onCreateView called");
         View root = inflater.inflate(R.layout.search_result, container, false);
 
         try {
             ImageButton backButton = root.findViewById(R.id.end);
             recyclerView = root.findViewById(R.id.recycler_view2);
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-            Log.d("SearchResultFragment", "RecyclerView initialized");
 
             searchResultViewModel = new ViewModelProvider(this).get(SearchResultViewModel.class);
-            Log.d("SearchResultFragment", "ViewModelProvider initialized");
 
             if (getArguments() != null) {
                 String query = getArguments().getString("query");
-                Log.d("SearchResultFragment", "Received query: " + query);
                 if (query != null && !query.isEmpty()) {
                     searchResultViewModel.searchRecipes(query);
                 }
@@ -71,10 +67,8 @@ public class SearchResultFragment extends Fragment {
 
             searchResultViewModel.getSearchResults().observe(getViewLifecycleOwner(), recipes -> {
                 if (recipes != null) {
-                    Log.d("SearchResultFragment", "Search results size: " + recipes.size());
                     adapter = new DataAdapter(recipes, this::onItemClick);
                     recyclerView.setAdapter(adapter);
-                    Log.d("SearchResultFragment", "RecyclerView adapter set");
                 } else {
                     Log.e("SearchResultFragment", "Search results are null");
                 }

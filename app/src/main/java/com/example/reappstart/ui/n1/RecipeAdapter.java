@@ -45,7 +45,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
         } else {
             holder.manualImage.setVisibility(View.GONE);
         }
-        Log.d("RecipeAdapter", "Step " + (position + 1) + ": manual=" + step.get("manual") + ", manualImgUrl=" + manualImgUrl); // 추가된 로그
     }
 
     @Override

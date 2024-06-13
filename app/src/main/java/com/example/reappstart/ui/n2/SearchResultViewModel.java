@@ -31,10 +31,8 @@ public class SearchResultViewModel extends AndroidViewModel {
     }
 
     public void searchRecipes(String query) {
-        Log.d(TAG, "searchRecipes called with query: " + query);
         if (currentTask != null && currentTask.getStatus() != AsyncTask.Status.FINISHED) {
             currentTask.cancel(true);
-            Log.d(TAG, "Previous task cancelled");
         }
         currentTask = new SearchRecipesTask(this, dbManager, query);
         currentTask.execute();
@@ -55,15 +53,12 @@ public class SearchResultViewModel extends AndroidViewModel {
         @Override
         protected List<CookRecipeResponse.RecipeRow> doInBackground(Void... voids) {
             if (isCancelled()) {
-                Log.d(TAG, "Task was cancelled before execution");
                 return null;
             }
             List<CookRecipeResponse.RecipeRow> result = new ArrayList<>();
             try {
-                Log.d(TAG, "Executing search query: " + query);
                 List<CookRecipeResponse.RecipeRow> responses = dbManager.searchItems(query);
                 result.addAll(responses);
-                Log.d(TAG, "Search results loaded: " + result.size());
             } catch (Exception e) {
                 Log.e(TAG, "Error loading search results", e);
             }

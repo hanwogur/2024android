@@ -51,7 +51,6 @@ public class N2ViewModel extends AndroidViewModel {
                 for (CookRecipeResponse response : responses) {
                     result.addAll(response.getCookRcp01().getRowList());
                 }
-                Log.d(TAG, "Recipes loaded: " + result.size());
             } catch (Exception e) {
                 Log.e(TAG, "Error loading recipes", e);
             }
@@ -63,7 +62,6 @@ public class N2ViewModel extends AndroidViewModel {
             N2ViewModel viewModel = viewModelReference.get();
             if (viewModel != null && recipeList != null) {
                 viewModel.recipes.setValue(recipeList);
-                Log.d(TAG, "Recipes set to LiveData: " + recipeList.size());
             }
         }
     }

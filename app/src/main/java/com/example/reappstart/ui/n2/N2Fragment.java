@@ -52,9 +52,8 @@ public class N2Fragment extends Fragment {
             if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                     event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
                 String query = searchBar.getText().toString().trim();
-                Log.d(TAG, "Search query: " + query);
+
                 if (!query.isEmpty()) {
-                    Log.d("N2Fragment", "Search query: " + query);
                     navigateToSearchResults(query);
                 }
                 return true;
@@ -72,12 +71,7 @@ public class N2Fragment extends Fragment {
     private void navigateToSearchResults(String query) {
         Bundle bundle = new Bundle();
         bundle.putString("query", query);
-        try {
-            Log.d("N2Fragment", "Navigating to SearchResultFragment with query: " + query);
-            Navigation.findNavController(requireView()).navigate(R.id.action_n2Fragment_to_searchResultFragment, bundle);
-        } catch (Exception e) {
-            Log.e("N2Fragment", "Navigation to SearchResultFragment failed", e);
-        }
+        Navigation.findNavController(requireView()).navigate(R.id.action_n2Fragment_to_searchResultFragment, bundle);
     }
 
     private void onItemClick(CookRecipeResponse.RecipeRow item) {
@@ -85,8 +79,7 @@ public class N2Fragment extends Fragment {
         intent.putExtra("tit", item.getRCP_NM());
         intent.putExtra("cate", item.getRCP_PAT2());
         intent.putExtra("image", item.getATT_FILE_NO_MAIN());
-        intent.putExtra("RCP_SEQ", item.getRCP_SEQ()); // RCP_SEQ 값을 추가
-        Log.d("N1Fragment", "RCP_SEQ added to intent: " + item.getRCP_SEQ()); // 로그 추가
+        intent.putExtra("RCP_SEQ", item.getRCP_SEQ());
         startActivity(intent);
     }
 }

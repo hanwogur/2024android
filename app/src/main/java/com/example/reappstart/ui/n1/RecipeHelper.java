@@ -31,7 +31,6 @@ public class RecipeHelper {
                 for (int j = 1; j <= 20; j++) {
                     String manual = cursor.getString(cursor.getColumnIndexOrThrow("MANUAL" + (j < 10 ? "0" + j : j)));
                     String manualImgUrl = cursor.getString(cursor.getColumnIndexOrThrow("MANUAL_IMG" + (j < 10 ? "0" + j : j)));
-                    Log.d("RecipeHelper", "Step " + j + ": manual=" + manual + ", manualImgUrl=" + manualImgUrl);
                     if (manual != null && !manual.isEmpty()) {
                         Map<String, String> step = new HashMap<>();
                         step.put("manual", manual);
@@ -39,8 +38,6 @@ public class RecipeHelper {
                         recipeSteps.add(step);
                     }
                 }
-            } else {
-                Log.e("RecipeHelper", "No data found for RCP_SEQ: " + rcpSeq);
             }
         } catch (Exception e) {
             Log.e("RecipeHelper", "Error loading recipe steps", e);
@@ -49,7 +46,6 @@ public class RecipeHelper {
                 cursor.close();
             }
         }
-        Log.d("RecipeHelper", "Total steps loaded: " + recipeSteps.size());
         return recipeSteps;
     }
 }
