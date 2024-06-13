@@ -6,7 +6,8 @@
     app:cardBackgroundColor="@android:color/transparent"
     app:cardElevation="0dp"
     android:layout_marginRight="8dp"
-    android:layout_marginLeft="8dp">
+    android:layout_marginLeft="8dp"
+    android:background="#FFFFFF">
 
     <FrameLayout
         android:layout_width="match_parent"

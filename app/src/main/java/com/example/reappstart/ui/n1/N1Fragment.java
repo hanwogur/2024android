@@ -64,7 +64,7 @@ public class N1Fragment extends Fragment {
         categoryre.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         categoryadapter = new CategoryCardViewAdapter(mData, item -> {
             Log.d("N1Fragment", "Category clicked: " + item.getCategoryText());
-            fetchFilteredData(item.getCategoryText()); // 필터링된 데이터 가져오기
+            fetchFilteredData(item.getCategoryText());
         });
         categoryre.setAdapter(categoryadapter);
 
