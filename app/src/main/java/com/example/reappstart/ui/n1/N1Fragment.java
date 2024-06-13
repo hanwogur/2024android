@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.reappstart.R;
@@ -25,6 +26,7 @@ import com.example.reappstart.databinding.FragmentN1Binding;
 import com.example.reappstart.database.CookRecipeResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,10 +34,12 @@ import retrofit2.Response;
 
 public class N1Fragment extends Fragment {
     private FragmentN1Binding binding;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView, categoryre;
     private DataAdapter adapter;
     private Animation rotation;
     private databaseManager db;
+    private CategoryCardViewAdapter categoryadapter;
+    private List<CategoryCardItem> mData;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +50,20 @@ public class N1Fragment extends Fragment {
 
         db = new databaseManager(getActivity());
         fetchDataAndStore();
+
+        //메인 카테고리 추가하려면 여기
+        mData = new ArrayList<>();
+        mData.add(new CategoryCardItem(R.drawable.rice, "밥"));
+        mData.add(new CategoryCardItem(R.drawable.soup, "국&찌개"));
+        mData.add(new CategoryCardItem(R.drawable.submenu, "반찬"));
+        mData.add(new CategoryCardItem(R.drawable.dessert, "후식"));
+        mData.add(new CategoryCardItem(R.drawable.onepum, "일품"));
+
+        // 카테고리 리싸이클러뷰 설정
+        categoryre = root.findViewById(R.id.category_re);
+        categoryre.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        categoryadapter = new CategoryCardViewAdapter(mData);
+        categoryre.setAdapter(categoryadapter);
 
         recyclerView = root.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
