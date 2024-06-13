@@ -75,7 +75,6 @@ public class N1Fragment extends Fragment {
     }
 
     private void fetchDataAndStore() {
-        startLoadingAnimation();
 
         Retrofit_interface service = retrofit_client.getApiService();
         Call<CookRecipeResponse> call = service.stock_api_get("1", "110");
@@ -92,25 +91,15 @@ public class N1Fragment extends Fragment {
                 } else {
                     // 네트워크 요청 실패 처리, UI 업데이트는 실시간 상황에 따라 다를 수 있다.
                 }
-                stopLoadingAnimation();
+
             }
 
             @Override
             public void onFailure(Call<CookRecipeResponse> call, Throwable t) {
                 // 네트워크 요청 실패 처리
-                stopLoadingAnimation();
+
             }
         });
-    }
-
-    private void startLoadingAnimation() {
-        rotation = AnimationUtils.loadAnimation(getContext(), R.anim.rotate_anime);
-        binding.iv.startAnimation(rotation);
-    }
-
-    private void stopLoadingAnimation() {
-        rotation.cancel(); // 애니메이션 취소
-        binding.iv.clearAnimation();
     }
 
     @Override
