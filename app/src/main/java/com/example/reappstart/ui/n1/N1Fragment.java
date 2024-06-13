@@ -59,10 +59,13 @@ public class N1Fragment extends Fragment {
         mData.add(new CategoryCardItem(R.drawable.dessert, "후식"));
         mData.add(new CategoryCardItem(R.drawable.onepum, "일품"));
 
-        // 카테고리 리싸이클러뷰 설정
+        //ㅁㅔ인 카테고리 리싸이클러뷰
         categoryre = root.findViewById(R.id.category_re);
         categoryre.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        categoryadapter = new CategoryCardViewAdapter(mData);
+        categoryadapter = new CategoryCardViewAdapter(mData, item -> {
+            Log.d("N1Fragment", "Category clicked: " + item.getCategoryText());
+            fetchFilteredData(item.getCategoryText()); // 필터링된 데이터 가져오기
+        });
         categoryre.setAdapter(categoryadapter);
 
         recyclerView = root.findViewById(R.id.recycler_view);
@@ -90,6 +93,12 @@ public class N1Fragment extends Fragment {
         intent.putExtra("RCP_SEQ", item.getRCP_SEQ()); // RCP_SEQ 값을 추가
         Log.d("N1Fragment", "RCP_SEQ added to intent: " + item.getRCP_SEQ()); // 로그 추가
         startActivity(intent);
+    }
+
+    private void fetchFilteredData(String categoryName) {
+        // 필터링된 데이터 가져오기
+        ArrayList<CookRecipeResponse.RecipeRow> filteredData = db.getItemsByCategory(categoryName);
+        adapter.setData(filteredData);
     }
 
     private void fetchDataAndStore() {

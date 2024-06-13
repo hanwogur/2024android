@@ -239,6 +239,26 @@ public class databaseManager extends SQLiteOpenHelper {
         return recipeList;
     }
 
+    public ArrayList<CookRecipeResponse.RecipeRow> getItemsByCategory(String categoryName) {
+        SQLiteDatabase db = getReadableDatabase();
+        String query = "SELECT * FROM RECIPE WHERE RCP_PAT2 = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{categoryName});
+        ArrayList<CookRecipeResponse.RecipeRow> list = new ArrayList<>();
+
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    list.add(setRecipeRow(cursor));
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            cursor.close();
+            db.close();
+        }
+
+        return list;
+    }
+
 
 
 

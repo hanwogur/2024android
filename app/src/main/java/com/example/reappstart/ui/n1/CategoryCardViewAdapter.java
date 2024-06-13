@@ -1,6 +1,5 @@
 package com.example.reappstart.ui.n1;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,12 @@ import com.example.reappstart.R;
 import java.util.List;
 
 public class CategoryCardViewAdapter extends RecyclerView.Adapter<CategoryCardViewAdapter.ViewHolder> {
-
     private List<CategoryCardItem> mData;
+    private OnItemClickListener mListener;
 
-    public CategoryCardViewAdapter(List<CategoryCardItem> data) {
+    public CategoryCardViewAdapter(List<CategoryCardItem> data, OnItemClickListener listener) {
         this.mData = data;
+        this.mListener = listener;
     }
 
     @NonNull
@@ -33,6 +33,12 @@ public class CategoryCardViewAdapter extends RecyclerView.Adapter<CategoryCardVi
         CategoryCardItem item = mData.get(position);
         holder.mainCategoryText.setText(item.getCategoryText());
         holder.mainCategoryImage.setImageResource(item.getCategoryImageResource());
+
+        holder.itemView.setOnClickListener(v -> {
+            if (mListener != null) {
+                mListener.onItemClick(item);
+            }
+        });
     }
 
     @Override
@@ -49,5 +55,9 @@ public class CategoryCardViewAdapter extends RecyclerView.Adapter<CategoryCardVi
             mainCategoryText = itemView.findViewById(R.id.main_category_text);
             mainCategoryImage = itemView.findViewById(R.id.main_category_image);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(CategoryCardItem item);
     }
 }
