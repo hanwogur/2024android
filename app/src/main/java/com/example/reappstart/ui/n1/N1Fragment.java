@@ -40,6 +40,7 @@ public class N1Fragment extends Fragment {
     private databaseManager db;
     private CategoryCardViewAdapter categoryadapter;
     private List<CategoryCardItem> mData;
+    private List<CookRecipeResponse.RecipeRow> originalData;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,8 +64,12 @@ public class N1Fragment extends Fragment {
         categoryre = root.findViewById(R.id.category_re);
         categoryre.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         categoryadapter = new CategoryCardViewAdapter(mData, item -> {
-            Log.d("N1Fragment", "Category clicked: " + item.getCategoryText());
-            fetchFilteredData(item.getCategoryText());
+            if (item != null) {
+                Log.d("N1Fragment", "Category clicked: " + item.getCategoryText());
+                fetchFilteredData(item.getCategoryText()); // 필터링된 데이터 가져오기
+            } else {
+                restoreOriginalData(); // 리사이클러뷰 초기화
+            }
         });
         categoryre.setAdapter(categoryadapter);
 
@@ -75,6 +80,7 @@ public class N1Fragment extends Fragment {
 
         n1ViewModel.getRecipes().observe(getViewLifecycleOwner(), recipes -> {
             Log.d(TAG, "Observed recipes: " + recipes.size());
+            originalData = new ArrayList<>(recipes);
             adapter.setData(recipes);
         });
 
@@ -99,6 +105,12 @@ public class N1Fragment extends Fragment {
         // 필터링된 데이터 가져오기
         ArrayList<CookRecipeResponse.RecipeRow> filteredData = db.getItemsByCategory(categoryName);
         adapter.setData(filteredData);
+    }
+
+    private void restoreOriginalData() {
+        // 원래의 데이터를 리사이클러뷰에 다시 설정
+        adapter.setData(originalData);
+        scrollToTop();
     }
 
     private void fetchDataAndStore() {
@@ -127,6 +139,11 @@ public class N1Fragment extends Fragment {
 
             }
         });
+    }
+
+    private void scrollToTop() {
+        // 리사이클러뷰를 맨 위로 스크롤
+        recyclerView.smoothScrollToPosition(0);
     }
 
     @Override

@@ -14,10 +14,9 @@ import com.example.reappstart.R;
 import java.util.List;
 
 public class CategoryCardViewAdapter extends RecyclerView.Adapter<CategoryCardViewAdapter.ViewHolder> {
-
     private List<CategoryCardItem> mData;
     private OnItemClickListener mListener;
-    private int selectedPosition = -1;
+    private int selectedPosition = -1; // 선택된 아이템의 위치를 저장하는 변수
 
     public CategoryCardViewAdapter(List<CategoryCardItem> data, OnItemClickListener listener) {
         this.mData = data;
@@ -37,22 +36,32 @@ public class CategoryCardViewAdapter extends RecyclerView.Adapter<CategoryCardVi
         holder.mainCategoryText.setText(item.getCategoryText());
         holder.mainCategoryImage.setImageResource(item.getCategoryImageResource());
 
-        // 선택된 포지션인지 확인하고 배경색 변경
+        // 배경색과 텍스트 색상 설정
         if (position == selectedPosition) {
-            holder.mainCategoryText.setTextColor(Color.parseColor("#FF0000"));
+            holder.itemView.setBackgroundColor(Color.parseColor("#D3D3D3")); // 연한 회색
+            holder.mainCategoryText.setTextColor(Color.parseColor("#FF0000")); // 선택된 아이템의 텍스트 색상 (예: 빨간색)
         } else {
-            holder.mainCategoryText.setTextColor(Color.parseColor("#000000")); // 흰색
+            holder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF")); // 흰색
+            holder.mainCategoryText.setTextColor(Color.parseColor("#000000")); // 일반 아이템의 텍스트 색상 (예: 검은색)
         }
 
         holder.itemView.setOnClickListener(v -> {
-            // 이전 선택 해제
-            notifyItemChanged(selectedPosition);
-            // 새로운 선택
-            selectedPosition = holder.getAdapterPosition();
-            notifyItemChanged(selectedPosition);
-
-            if (mListener != null) {
-                mListener.onItemClick(item);
+            if (selectedPosition == position) {
+                // 선택된 카테고리를 다시 클릭한 경우
+                selectedPosition = -1; // 선택 해제
+                notifyDataSetChanged(); // 전체 데이터 새로고침
+                if (mListener != null) {
+                    mListener.onItemClick(null); // null을 전달하여 리사이클러뷰를 초기화
+                }
+            } else {
+                // 새로운 카테고리를 선택한 경우
+                if (mListener != null) {
+                    mListener.onItemClick(item);
+                }
+                int previousSelectedPosition = selectedPosition;
+                selectedPosition = position;
+                notifyItemChanged(previousSelectedPosition); // 이전 선택된 아이템 업데이트
+                notifyItemChanged(selectedPosition); // 현재 선택된 아이템 업데이트
             }
         });
     }
