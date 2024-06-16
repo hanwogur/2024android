@@ -5,11 +5,31 @@
     android:layout_height="match_parent"
     android:padding="50dp">
 
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="50dp"
+        android:background="#00000000"
+        android:scaleType="fitCenter"
+        android:src="@drawable/baseline_chevron_left_24" />
+
+    <TextView
+        android:id="@+id/text_n5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/noto_sans_kr_bold"
+        android:includeFontPadding="false"
+        android:text="회원가입"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp" />
+
     <EditText
         android:id="@+id/id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="50dp"
         android:ems="10"
         android:inputType="text"
         android:hint="아이디"/>
@@ -51,6 +71,6 @@
         android:id="@+id/sign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="회원가입" />
+        android:text="확인" />
 
 </LinearLayout>

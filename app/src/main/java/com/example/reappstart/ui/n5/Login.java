@@ -24,6 +24,13 @@ public class Login extends Activity {
         binding = LoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    finish();
+            }
+        });
+
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

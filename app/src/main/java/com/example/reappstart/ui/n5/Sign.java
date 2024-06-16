@@ -21,6 +21,13 @@ public class Sign extends Activity {
         b = SignBinding.inflate(getLayoutInflater());
         setContentView(b.getRoot());
 
+        b.btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         b.sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
