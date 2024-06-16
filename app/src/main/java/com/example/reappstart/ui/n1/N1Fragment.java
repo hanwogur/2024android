@@ -116,7 +116,7 @@ public class N1Fragment extends Fragment {
     private void fetchDataAndStore() {
 
         Retrofit_interface service = retrofit_client.getApiService();
-        Call<CookRecipeResponse> call = service.stock_api_get("1", "110");
+        Call<CookRecipeResponse> call = service.stock_api_get("1", "1000");
 
         call.enqueue(new Callback<CookRecipeResponse>() {
             @Override
